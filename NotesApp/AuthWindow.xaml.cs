@@ -19,6 +19,7 @@ namespace NotesApp
         {
             if (dataContext.users.Any(u => u.username == username_field.Text && u.password == password_field.Password))
             {
+                //Maybe we must add some desryption coding P.S Azamat
                 //success
             }
             else
