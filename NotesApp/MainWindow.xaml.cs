@@ -22,11 +22,14 @@ namespace NotesApp
             
             if (result.Count() > 0)
             {
-                MessageBox.Show("SUCCESS!");
+                //success
             }
             else
             {
-                MessageBox.Show("Неправильный логин или пароль!", "");
+                MessageBox.Show("Неправильный логин или пароль!", 
+                    "Ошибка входа", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Error);
             }
             
         }
