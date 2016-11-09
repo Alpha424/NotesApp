@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="u0256509_db1" Class="DBModelDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=31.31.196.115;Initial Catalog=u0256509_db1;Persist Security Info=True;User ID=u0256509_user" SettingsObjectName="NotesApp.Properties.Settings" SettingsPropertyName="u0256509_db1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="u0256509_user.notes" Member="notes">
+    <Type Name="notes">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="createdby" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="text" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="lastedit" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="users_notes" Member="users" ThisKey="createdby" OtherKey="id" Type="users" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="u0256509_user.users" Member="users">
+    <Type Name="users">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="users_notes" Member="notes" ThisKey="id" OtherKey="createdby" Type="notes" />
+    </Type>
+  </Table>
+</Database>
