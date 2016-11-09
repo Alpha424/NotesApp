@@ -5,10 +5,10 @@
     <Setting Name="u0256509_db1ConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=31.31.196.115;Initial Catalog=u0256509_db1;Persist Security Info=True;User ID=u0256509_user;Password=Abc56545258&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Data Source=31.31.196.115;Initial Catalog=u0256509_db1;Persist Security Info=True;User ID=u0256509_user;Password=Kbx18#5k&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=31.31.196.115;Initial Catalog=u0256509_db1;Persist Security Info=True;User ID=u0256509_user;Password=Abc56545258</Value>
+      <Value Profile="(Default)">Data Source=31.31.196.115;Initial Catalog=u0256509_db1;Persist Security Info=True;User ID=u0256509_user;Password=Kbx18#5k</Value>
     </Setting>
   </Settings>
 </SettingsFile>

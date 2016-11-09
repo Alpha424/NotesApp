@@ -27,7 +27,7 @@ namespace NotesApp.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=31.31.196.115;Initial Catalog=u0256509_db1;Persist Security Info=True" +
-            ";User ID=u0256509_user;Password=Abc56545258")]
+            ";User ID=u0256509_user;Password=Kbx18#5k")]
         public string u0256509_db1ConnectionString {
             get {
                 return ((string)(this["u0256509_db1ConnectionString"]));
