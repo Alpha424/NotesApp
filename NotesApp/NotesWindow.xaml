@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotesApp"
         mc:Ignorable="d"
-        Title="Notes" Height="352.078" Width="525.183" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+        Title="Notes" Height="352.078" Width="525.183" WindowStartupLocation="CenterScreen">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="362*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="notesListBox" BorderThickness="0,0,1,0">
+            <ListBoxItem Content="еуыефdawfawfawfawfawfwfwafawfawf"/>
+        </ListBox>
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="-90" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FFDEDEDE" Offset="0"/>
+                    <GradientStop Color="White" Offset="0.01"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
     </Grid>
 </Window>

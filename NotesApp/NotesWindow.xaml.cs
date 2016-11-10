@@ -15,6 +15,7 @@ namespace NotesApp
             InitializeComponent();
             this.dataContext = dataContext;
             this.currentUser = currentUser;
+            this.Title = $"Notes - {currentUser.username}";
         }
 
     }
