@@ -1,9 +1,17 @@
-﻿<Application x:Class="NotesApp.App"
+﻿<Application
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:NotesApp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="NotesApp.App"
              StartupUri="AuthWindow.xaml">
     <Application.Resources>
-         
+
+        <DataTemplate x:Key="NotesListBoxItem">
+            <Grid Height="74" Width="Auto" d:DesignWidth="144.75" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <TextBlock x:Name="contentBlock" HorizontalAlignment="Stretch" Margin="6,2,9.75,0" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Height="54" Width="Auto" TextTrimming="CharacterEllipsis" FontWeight="Bold" TextAlignment="Justify"/>
+                <TextBlock x:Name="dateTimeBlock" HorizontalAlignment="Stretch" Margin="6,56,9.75,0" TextWrapping="Wrap" Text="{Binding LastEditDateTime}" VerticalAlignment="Top" Width="Auto" Opacity="0.7" FontWeight="Normal" FontSize="12"/>
+            </Grid>
+        </DataTemplate>
+
     </Application.Resources>
 </Application>
