@@ -1,6 +1,8 @@
-﻿using System.Data.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NotesApp
 {
@@ -9,9 +11,9 @@ namespace NotesApp
     /// </summary>
     public partial class NotesWindow : Window
     {
-        private DataContext dataContext = null;
+        private DBModelDataContext dataContext = null;
         private users currentUser = null;
-
+        private notes selectedNote = null;
         public void reloadNotesList()
         {
             notesListBox.Items.Clear();
@@ -24,9 +26,10 @@ namespace NotesApp
                 });
             }
         }
-        public NotesWindow(DataContext dataContext, users currentUser)
+        public NotesWindow(DBModelDataContext dataContext, users currentUser)
         {
             InitializeComponent();
+            noteContentGrid.Visibility = Visibility.Hidden;
             this.dataContext = dataContext;
             this.currentUser = currentUser;
             this.Title = $"Notes - {currentUser.username}";
@@ -38,8 +41,28 @@ namespace NotesApp
         }
         private void notesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            int index = ((ListBox) sender).SelectedIndex;
-            textBox.Text = currentUser.notes[index].text;
+            selectedNote = currentUser.notes[((ListBox) sender).SelectedIndex];
+            if(noteContentGrid.Visibility == Visibility.Hidden) noteContentGrid.Visibility = Visibility.Visible;
+            noteContentBox.Text = selectedNote.text;
+            lasteditLabel.Content = selectedNote.lastedit;
+            if (selectedNote.createdby == currentUser.id)
+            {
+                createdorsharedbyLabel.Content = "Created by you";
+                shareButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                createdorsharedbyLabel.Content = string.Format("Shared by: {0}", from u in dataContext.users
+                                                                                 where u.id == selectedNote.createdby
+                                                                                 select u.username);
+                shareButton.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void shareButton_Click(object sender, RoutedEventArgs e)
+        {
+            SharingOptionsDialog sharingOptionsDialog = new SharingOptionsDialog(dataContext, selectedNote, currentUser);
+            sharingOptionsDialog.ShowDialog();
         }
     }
 }

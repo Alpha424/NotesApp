@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NotesApp"
         mc:Ignorable="d"
         Title="Notes" Height="484.078" Width="768.183" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
@@ -12,23 +11,12 @@
             <ColumnDefinition Width="362*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="notesListBox" BorderThickness="0,0,1,0" ItemTemplate="{DynamicResource NotesListBoxItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" SelectionChanged="notesListBox_SelectionChanged"/>
-        <Grid x:Name="grid" Grid.Column="1">
-            <TextBox Name="textBox" Grid.Row="0" Margin="5" BorderBrush="LightBlue"
+        <Grid x:Name="noteContentGrid" Grid.Column="1">
+            <TextBox x:Name="noteContentBox" Grid.Row="0" Margin="5,56,5,5" BorderBrush="LightBlue"
                  BorderThickness="5" TextWrapping="Wrap"></TextBox>
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <LinearGradientBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                            <RotateTransform Angle="-90" CenterY="0.5" CenterX="0.5"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#FFDEDEDE" Offset="0"/>
-                    <GradientStop Color="White" Offset="0.01"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+            <Label x:Name="createdorsharedbyLabel" Content="Shared by:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Width="512"/>
+            <Label x:Name="lasteditLabel" Content="Last edit:" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="512"/>
+            <Button x:Name="shareButton" Content="Sharing Options..." HorizontalAlignment="Right" Margin="0,6,10,0" Width="105" Height="22" VerticalAlignment="Top" Click="shareButton_Click"/>
         </Grid>
     </Grid>
 </Window>

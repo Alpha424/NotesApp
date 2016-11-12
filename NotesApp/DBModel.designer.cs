@@ -36,6 +36,9 @@ namespace NotesApp
     partial void Insertusers(users instance);
     partial void Updateusers(users instance);
     partial void Deleteusers(users instance);
+    partial void Insertshared(shared instance);
+    partial void Updateshared(shared instance);
+    partial void Deleteshared(shared instance);
     #endregion
 		
 		public DBModelDataContext() : 
@@ -81,6 +84,14 @@ namespace NotesApp
 			get
 			{
 				return this.GetTable<users>();
+			}
+		}
+		
+		public System.Data.Linq.Table<shared> shared
+		{
+			get
+			{
+				return this.GetTable<shared>();
 			}
 		}
 	}
@@ -395,6 +406,140 @@ namespace NotesApp
 		{
 			this.SendPropertyChanging();
 			entity.users = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="u0256509_user.shared")]
+	public partial class shared : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _noteid;
+		
+		private int _sharedby;
+		
+		private int _sharedwith;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnnoteidChanging(int value);
+    partial void OnnoteidChanged();
+    partial void OnsharedbyChanging(int value);
+    partial void OnsharedbyChanged();
+    partial void OnsharedwithChanging(int value);
+    partial void OnsharedwithChanged();
+    #endregion
+		
+		public shared()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_noteid", DbType="Int NOT NULL")]
+		public int noteid
+		{
+			get
+			{
+				return this._noteid;
+			}
+			set
+			{
+				if ((this._noteid != value))
+				{
+					this.OnnoteidChanging(value);
+					this.SendPropertyChanging();
+					this._noteid = value;
+					this.SendPropertyChanged("noteid");
+					this.OnnoteidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sharedby", DbType="Int NOT NULL")]
+		public int sharedby
+		{
+			get
+			{
+				return this._sharedby;
+			}
+			set
+			{
+				if ((this._sharedby != value))
+				{
+					this.OnsharedbyChanging(value);
+					this.SendPropertyChanging();
+					this._sharedby = value;
+					this.SendPropertyChanged("sharedby");
+					this.OnsharedbyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sharedwith", DbType="Int NOT NULL")]
+		public int sharedwith
+		{
+			get
+			{
+				return this._sharedwith;
+			}
+			set
+			{
+				if ((this._sharedwith != value))
+				{
+					this.OnsharedwithChanging(value);
+					this.SendPropertyChanging();
+					this._sharedwith = value;
+					this.SendPropertyChanged("sharedwith");
+					this.OnsharedwithChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

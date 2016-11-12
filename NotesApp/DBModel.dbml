@@ -17,4 +17,12 @@
       <Association Name="users_notes" Member="notes" ThisKey="id" OtherKey="createdby" Type="notes" />
     </Type>
   </Table>
+  <Table Name="u0256509_user.shared" Member="shared">
+    <Type Name="shared">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="noteid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="sharedby" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="sharedwith" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

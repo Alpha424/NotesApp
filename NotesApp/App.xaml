@@ -7,8 +7,8 @@
     <Application.Resources>
 
         <DataTemplate x:Key="NotesListBoxItem">
-            <Grid Height="74" Width="Auto" d:DesignWidth="144.75" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <TextBlock x:Name="contentBlock" HorizontalAlignment="Stretch" Margin="6,2,9.75,0" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Height="54" Width="Auto" TextTrimming="CharacterEllipsis" FontWeight="Bold" TextAlignment="Justify"/>
+            <Grid Height="77" Width="Auto" d:DesignWidth="144.75" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <TextBlock x:Name="contentBlock" HorizontalAlignment="Stretch" Margin="6,2,9.75,0" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Height="54" Width="Auto" TextTrimming="CharacterEllipsis" FontWeight="Bold" TextAlignment="Left"/>
                 <TextBlock x:Name="dateTimeBlock" HorizontalAlignment="Stretch" Margin="6,56,9.75,0" TextWrapping="Wrap" Text="{Binding LastEditDateTime}" VerticalAlignment="Top" Width="Auto" Opacity="0.7" FontWeight="Normal" FontSize="12"/>
             </Grid>
         </DataTemplate>
