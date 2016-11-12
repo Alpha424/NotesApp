@@ -1,5 +1,6 @@
 ﻿using System.Data.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace NotesApp
 {
@@ -35,11 +36,10 @@ namespace NotesApp
         {
             reloadNotesList();
         }
-
-        private void ListBoxItemClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void notesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            textBox.Text = ((notes)sender).text;
-         //Azamat 11/12/2016   
+            int index = ((ListBox) sender).SelectedIndex;
+            textBox.Text = currentUser.notes[index].text;
         }
     }
 }
