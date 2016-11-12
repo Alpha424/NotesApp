@@ -11,8 +11,10 @@
             <ColumnDefinition Width="155*"/>
             <ColumnDefinition Width="362*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="notesListBox" BorderThickness="0,0,1,0" ItemTemplate="{DynamicResource NotesListBoxItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"/>
-        <Grid Grid.Column="1">
+        <ListBox x:Name="notesListBox" BorderThickness="0,0,1,0" ItemTemplate="{DynamicResource NotesListBoxItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" MouseDoubleClick="ListBoxItemClick"/>
+        <Grid x:Name="grid" Grid.Column="1">
+            <TextBox Name="textBox" Grid.Row="0" Margin="5" BorderBrush="LightBlue"
+                 BorderThickness="5"></TextBox>
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <LinearGradientBrush.RelativeTransform>

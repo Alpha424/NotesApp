@@ -35,5 +35,11 @@ namespace NotesApp
         {
             reloadNotesList();
         }
+
+        private void ListBoxItemClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            textBox.Text = ((notes)sender).text;
+         //Azamat 11/12/2016   
+        }
     }
 }
