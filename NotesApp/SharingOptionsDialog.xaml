@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotesApp"
         mc:Ignorable="d"
-        Title="Sharing options" Height="443.698" Width="410.925" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True">
+        Title="Sharing options" Height="443.698" Width="410.925" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True" Loaded="Window_Loaded">
     <Grid>
         <Label x:Name="label" Content="Shared with:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
         <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top" Width="75" Click="addButton_Click" IsEnabled="False"/>
@@ -13,6 +13,7 @@
         <ListBox x:Name="usersList" HorizontalAlignment="Left" Height="267" Margin="10,31,0,0" VerticalAlignment="Top" Width="374" FontSize="14" SelectionChanged="usersList_SelectionChanged"/>
         <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="23" Margin="90,330,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="294"/>
         <Button x:Name="submitButton" Content="Submit Changes" HorizontalAlignment="Left" Margin="276,372,0,0" VerticalAlignment="Top" Width="108" Click="submitButton_Click"/>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="196,372,0,0" VerticalAlignment="Top" Width="75" Click="cancelButton_Click"/>
 
     </Grid>
 </Window>

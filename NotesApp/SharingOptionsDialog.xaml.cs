@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Interop;
 
 namespace NotesApp
 {
-    /// <summary>
-    /// Логика взаимодействия для SharingOptionsDialog.xaml
-    /// </summary>
     public partial class SharingOptionsDialog : Window
     {
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         private DBModelDataContext dataContext = null;
         private notes currentNote = null;
         private users currentUser = null;
+        IEnumerable<shared> sharingsToInsert = new List<shared>();
+        IEnumerable<shared> sharingToDelete = new List<shared>();
         public SharingOptionsDialog(DBModelDataContext dataContext, notes currentNote, users currentUser)
         {
             
@@ -49,23 +48,30 @@ namespace NotesApp
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!dataContext.users.Any(user => user.username == usernameBox.Text))
+            string enteredUserName = usernameBox.Text.Trim();
+            if (!dataContext.users.Any(user => user.username.ToLower() == enteredUserName))
             {
                 MessageBox.Show("There is no user with such username!", "ERROR", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
                 return;
             }
-            if (usersList.Items.Contains(usernameBox.Text))
+            if (usersList.Items.Contains(enteredUserName))
             {
                 MessageBox.Show("User with such name already exists in the sharing list!", "ERROR", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
                 return;
             }
-            dataContext.shared.InsertOnSubmit(new shared
+            if (String.Equals(currentUser.username, enteredUserName, StringComparison.CurrentCultureIgnoreCase))
+            {
+                MessageBox.Show("You cannot share notes with yourself!", "ERROR", MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
+                return;
+            }
+            ((List<shared>)sharingsToInsert).Add(new shared
             {
                 noteid = currentNote.id,
                 sharedby = currentUser.id,
-                sharedwith = dataContext.users.First(user => user.username == usernameBox.Text).id
+                sharedwith = dataContext.users.First(user => user.username == enteredUserName).id
             });
             usersList.Items.Add(usernameBox.Text);
         }
@@ -74,6 +80,8 @@ namespace NotesApp
         {
             try
             {
+                dataContext.shared.InsertAllOnSubmit(sharingsToInsert);
+                dataContext.shared.DeleteAllOnSubmit(sharingToDelete);
                 dataContext.SubmitChanges();
             }
             catch (Exception ex)
@@ -91,8 +99,21 @@ namespace NotesApp
         {
             int deletingUserID =
                 dataContext.users.First(user => user.username == (string)usersList.Items[usersList.SelectedIndex]).id;
-            dataContext.shared.DeleteAllOnSubmit(dataContext.shared.Where(sh => sh.noteid == currentNote.id && sh.sharedby == currentUser.id && sh.sharedwith == deletingUserID));
+            ((List<shared>)sharingToDelete).AddRange(dataContext.shared.Where(sh => sh.noteid == currentNote.id && sh.sharedby == currentUser.id && sh.sharedwith == deletingUserID));
             usersList.Items.RemoveAt(usersList.SelectedIndex);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            sharingsToInsert = null;
+            sharingToDelete = null;
+            Close();
         }
     }
 }
