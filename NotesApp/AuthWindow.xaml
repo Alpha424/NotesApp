@@ -5,15 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotesApp"
         mc:Ignorable="d"
-        Title="Login" Height="253.721" Width="351.284" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Login" Height="234.721" Width="339.284" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <TextBox x:Name="username_field" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="219" Margin="104,60,0,0"/>
-        <PasswordBox x:Name="password_field" HorizontalAlignment="Left" Margin="104,88,0,0" VerticalAlignment="Top" Width="219" Height="23"/>
-        <Label x:Name="label" Content="Login:" HorizontalAlignment="Left" Margin="57,60,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_Copy" Content="Password:" HorizontalAlignment="Left" Margin="38,88,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="loginButton" Content="Login" HorizontalAlignment="Left" Margin="248,183,0,0" VerticalAlignment="Top" Width="75" Click="loginButton_Click" IsEnabled="False"/>
-        <Button x:Name="registerButton" Content="Register" HorizontalAlignment="Left" Margin="168,183,0,0" VerticalAlignment="Top" Width="75" Click="registerButton_Click" IsEnabled="False"/>
-        <CheckBox x:Name="savePasswordCheckbox" Content="Save" HorizontalAlignment="Left" Margin="104,116,0,0" VerticalAlignment="Top" Width="219"/>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFEDF8FF" Offset="0"/>
+                <GradientStop Color="White" Offset="0.488"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Border BorderBrush="#FFBBBBBB" BorderThickness="0,1,0,0" Height="51" Margin="-1,0,0,0" VerticalAlignment="Bottom" Background="#FFEAEAEA"/>
+
+        <TextBox x:Name="username_field" TextWrapping="Wrap" Margin="0,0,10,123" HorizontalAlignment="Right" Width="219" Height="23" VerticalAlignment="Bottom"/>
+        <PasswordBox x:Name="password_field" Margin="0,0,10,95" HorizontalAlignment="Right" Width="219" Height="23" VerticalAlignment="Bottom"/>
+        <Label x:Name="label" Content="Login:" Margin="0,0,234,120" HorizontalAlignment="Right" Width="42" Height="26" VerticalAlignment="Bottom"/>
+        <Label x:Name="label_Copy" Content="Password:" Margin="0,0,232,92" HorizontalAlignment="Right" Width="63" Height="26" VerticalAlignment="Bottom"/>
+        <Button x:Name="loginButton" Content="Login" HorizontalAlignment="Right" Margin="0,0,10,14" VerticalAlignment="Bottom" Width="75" Click="loginButton_Click" IsEnabled="False"/>
+        <Button x:Name="registerButton" Content="Register" HorizontalAlignment="Right" Margin="0,0,90,14" VerticalAlignment="Bottom" Width="75" Click="registerButton_Click" IsEnabled="False"/>
+        <CheckBox x:Name="savePasswordCheckbox" Content="Save" Margin="0,0,10,74" HorizontalAlignment="Right" Width="219" Height="16" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>
