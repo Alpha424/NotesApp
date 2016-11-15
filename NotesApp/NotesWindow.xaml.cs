@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Linq;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NotesApp
 {
@@ -18,12 +12,17 @@ namespace NotesApp
     {
         private DBModelDataContext dataContext = null;
         private users currentUser = null;
+        private bool _unsavedChanges = false;
+        
 
         private notes selectedNote
         {
             get { return notesListBox.SelectedIndex == -1 ? null : availableNotes[notesListBox.SelectedIndex]; }
         }
-
+        private bool unsavedChanges
+        {
+            get { return selectedNote != null && !selectedNote.text.Equals(noteContentBox.Text); }
+        }
         private List<notes> availableNotes = null;
         public void reloadNotesList()
         {
@@ -92,7 +91,22 @@ namespace NotesApp
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
         {
-             new AuthWindow().Show();
+            if (unsavedChanges)
+            {
+                var res = MessageBox.Show("You have unsaved changes.\nDo you want to save changes?", "Unsaved changes",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    selectedNote.text = noteContentBox.Text;
+                    selectedNote.lastedit = DateTime.Now;
+                    dataContext.SubmitChanges();
+                }
+                else if (res == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
+            new AuthWindow().Show();
              Close();
         }
 
@@ -107,9 +121,9 @@ namespace NotesApp
             };
             dataContext.notes.InsertOnSubmit(newNote);
             dataContext.SubmitChanges();
-            dataContext.Refresh(RefreshMode.OverwriteCurrentValues);
             reloadNotesList();
             notesListBox.SelectedIndex = 0;
+            noteContentBox.Focus();
         }
 
         private void saveNoteButton_Click(object sender, RoutedEventArgs e)
@@ -122,13 +136,32 @@ namespace NotesApp
 
         private void deleteNoteButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialogResult = MessageBox.Show("Are you sure you want to delete selected note?", null,
+            var dialogResult = MessageBox.Show("Are you sure you want to delete selected note?", "",
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 dataContext.notes.DeleteOnSubmit(selectedNote);
                 dataContext.SubmitChanges();
                 reloadNotesList();
+            }
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (unsavedChanges)
+            {
+                var res = MessageBox.Show("You have unsaved changes.\nDo you want to save changes?", "Unsaved changes",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    selectedNote.text = noteContentBox.Text;
+                    selectedNote.lastedit = DateTime.Now;
+                    dataContext.SubmitChanges();
+                }
+                else if (res == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
             }
         }
     }

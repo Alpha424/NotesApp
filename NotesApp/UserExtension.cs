@@ -11,7 +11,7 @@ namespace NotesApp
         public static IEnumerable<notes> GetAvailableNotes(this users user, DBModelDataContext dataContext, bool includeShared)
         {
             List<notes> availableNotes = new List<notes>();
-            availableNotes.AddRange(user.notes);
+            availableNotes.AddRange(from n in dataContext.notes where n.createdby == user.id select n);
             if (includeShared)
             {
                 IEnumerable<notes> sharedNotes = from note in dataContext.notes
