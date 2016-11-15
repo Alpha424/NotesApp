@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -141,6 +142,9 @@ namespace NotesApp
             if (dialogResult == MessageBoxResult.Yes)
             {
                 dataContext.notes.DeleteOnSubmit(selectedNote);
+                dataContext.shared.DeleteAllOnSubmit(from sh in dataContext.shared
+                    where sh.noteid == selectedNote.id
+                    select sh);
                 dataContext.SubmitChanges();
                 reloadNotesList();
             }
