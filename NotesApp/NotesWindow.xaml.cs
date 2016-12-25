@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -141,14 +142,35 @@ namespace NotesApp
 
         private void saveNoteButton_Click(object sender, RoutedEventArgs e)
         {
+            dataContext.Refresh(RefreshMode.OverwriteCurrentValues, selectedNote);
+            dataContext.Refresh(RefreshMode.OverwriteCurrentValues, dataContext.shared);
             selectedNote.text = noteContentBox.Text;
             selectedNote.lastedit = DateTime.Now;
             
             try
             {
-                dataContext.SubmitChanges();
+                if(selectedNote.createdby == currentUser.id || dataContext.shared.Any(sh => sh.noteid == selectedNote.id && sh.sharedwith == currentUser.id))
+                {
+                    dataContext.SubmitChanges();
+                } else
+                {
+                    MessageBox.Show("You don't have permission to change this note!", "Access denied", MessageBoxButton.OK, MessageBoxImage.Error);
+                    refresh(null, null);
+                }
+                
 
-            } catch (Exception ex)
+            } catch (ChangeConflictException ex)
+            {
+                foreach(ObjectChangeConflict changeConflict in dataContext.ChangeConflicts)
+                {
+                    foreach(MemberChangeConflict memberChangeConflict in changeConflict.MemberConflicts)
+                    {
+                        memberChangeConflict.Resolve(RefreshMode.OverwriteCurrentValues);
+                    }
+                }
+                dataContext.SubmitChanges();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -186,6 +208,23 @@ namespace NotesApp
                     e.Cancel = true;
                     return;
                 }
+            }
+        }
+
+        private void refresh(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dataContext.Dispose();
+                dataContext = null;
+                dataContext = new DBModelDataContext();
+                reloadNotesList();
+                notesListBox.SelectedIndex = -1;
+               
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
