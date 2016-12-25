@@ -61,6 +61,7 @@
     <Compile Include="DBModel.cs">
       <DependentUpon>DBModel.dbml</DependentUpon>
     </Compile>
+    <Compile Include="NetConnection.cs" />
     <Compile Include="SharingOptionsDialog.xaml.cs">
       <DependentUpon>SharingOptionsDialog.xaml</DependentUpon>
     </Compile>

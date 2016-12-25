@@ -27,20 +27,25 @@ namespace NotesApp
         private List<notes> availableNotes = null;
         public void reloadNotesList()
         {
-            notesListBox.Items.Clear();
-            availableNotes.Clear();
-            availableNotes = currentUser.GetAvailableNotes(dataContext, true) as List<notes>;
-            if(availableNotes == null) return;
-            availableNotes.Sort((n1, n2) => DateTime.Compare(n2.lastedit.Value, n1.lastedit.Value));
-            foreach (notes note in availableNotes)
+            try
             {
-                notesListBox.Items.Add(new
+                notesListBox.Items.Clear();
+                availableNotes.Clear();
+                availableNotes = currentUser.GetAvailableNotes(dataContext, true) as List<notes>;
+                if (availableNotes == null) return;
+                availableNotes.Sort((n1, n2) => DateTime.Compare(n2.lastedit.Value, n1.lastedit.Value));
+                foreach (notes note in availableNotes)
                 {
-                    Content = note.text,
-                    LastEditDateTime = $"Last edit: {note.lastedit}"
-                });
+                    notesListBox.Items.Add(new
+                    {
+                        Content = note.text,
+                        LastEditDateTime = $"Last edit: {note.lastedit}"
+                    });
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
 
         }
         public NotesWindow(DBModelDataContext dataContext, users currentUser)
@@ -113,6 +118,7 @@ namespace NotesApp
 
         private void createNoteButton_Click(object sender, RoutedEventArgs e)
         {
+            
             DateTime nowTime = DateTime.Now;
             notes newNote = new notes
             {
@@ -120,9 +126,15 @@ namespace NotesApp
                 lastedit = nowTime,
                 text = string.Empty
             };
-            dataContext.notes.InsertOnSubmit(newNote);
-            dataContext.SubmitChanges();
-            reloadNotesList();
+            try
+            {
+                dataContext.notes.InsertOnSubmit(newNote);
+                dataContext.SubmitChanges();
+                reloadNotesList();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             notesListBox.SelectedIndex = 0;
             noteContentBox.Focus();
         }
@@ -131,7 +143,15 @@ namespace NotesApp
         {
             selectedNote.text = noteContentBox.Text;
             selectedNote.lastedit = DateTime.Now;
-            dataContext.SubmitChanges();
+            
+            try
+            {
+                dataContext.SubmitChanges();
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             reloadNotesList();
         }
 

@@ -23,22 +23,26 @@ namespace NotesApp
         IEnumerable<shared> sharingToDelete = new List<shared>();
         public SharingOptionsDialog(DBModelDataContext dataContext, notes currentNote, users currentUser)
         {
-            
-            InitializeComponent();
-            usernameBox.TextChanged += (sender, args) => addButton.IsEnabled = ((TextBox) sender).Text.Trim().Length > 0;
-            this.dataContext = dataContext;
-            this.currentUser = currentUser;
-            this.currentNote = currentNote;
-            var usernames = from user in dataContext.users
-                join sh in this.dataContext.shared on user.id equals sh.sharedwith
-                where sh.sharedby == this.currentUser.id && sh.noteid == this.currentNote.id
-                select user.username;
-            foreach (var username in usernames)
+            try
             {
-                usersList.Items.Add(username);
+                InitializeComponent();
+                usernameBox.TextChanged += (sender, args) => addButton.IsEnabled = ((TextBox)sender).Text.Trim().Length > 0;
+                this.dataContext = dataContext;
+                this.currentUser = currentUser;
+                this.currentNote = currentNote;
+                var usernames = from user in dataContext.users
+                                join sh in this.dataContext.shared on user.id equals sh.sharedwith
+                                where sh.sharedby == this.currentUser.id && sh.noteid == this.currentNote.id
+                                select user.username;
+                foreach (var username in usernames)
+                {
+                    usersList.Items.Add(username);
+                }
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
         }
 
         private void usersList_SelectionChanged(object sender, SelectionChangedEventArgs e)

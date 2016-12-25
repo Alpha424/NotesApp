@@ -13,7 +13,19 @@ namespace NotesApp
         public AuthWindow()
         {
             InitializeComponent();
-            dataContext = new DBModelDataContext();
+            if (!NetConnection.CheckForInternetConnection())
+            {
+                MessageBox.Show("This application requires network connection!\nApplication will be closed", "No Internet Connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                Application.Current.Shutdown();
+                return;
+            }
+            try
+            {
+                dataContext = new DBModelDataContext();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             username_field.TextChanged += (sender, args) => loginButton.IsEnabled =
                         registerButton.IsEnabled = username_field.Text.Trim().Length > 0 && password_field.Password.Trim().Length > 0;
             password_field.PasswordChanged += (sender, args) => loginButton.IsEnabled =
@@ -41,44 +53,55 @@ namespace NotesApp
         }
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            var res = from user in dataContext.users
-                where user.username == username_field.Text && user.password == password_field.Password
-                select user;
-
-            if (res.Count() > 0)
+            try
             {
-                authWith(dataContext, res.First());
-            }
-            else
-            {
-                MessageBox.Show("Invalid username or password!",
-                    "ERROR",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
+                var res = from user in dataContext.users
+                          where user.username == username_field.Text && user.password == password_field.Password
+                          select user;
 
+                if (res.Count() > 0)
+                {
+                    authWith(dataContext, res.First());
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password!",
+                        "ERROR",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!dataContext.users.Any(u => u.username == username_field.Text))
+            try
             {
-                dataContext.users.InsertOnSubmit(new users
+                if (!dataContext.users.Any(u => u.username == username_field.Text))
                 {
-                    username = username_field.Text,
-                    password = password_field.Password
-                });
-                dataContext.SubmitChanges();
-                authWith(dataContext, dataContext.users.First(
-                    u => u.username == username_field.Text && u.password == password_field.Password));
-                this.Close();
-            }
-            else
+                    dataContext.users.InsertOnSubmit(new users
+                    {
+                        username = username_field.Text,
+                        password = password_field.Password
+                    });
+                    dataContext.SubmitChanges();
+                    authWith(dataContext, dataContext.users.First(
+                        u => u.username == username_field.Text && u.password == password_field.Password));
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("User with this username already exists!",
+                        "ERROR",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+            } catch (Exception ex)
             {
-                MessageBox.Show("User with this username already exists!",
-                    "ERROR",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
