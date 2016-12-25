@@ -44,7 +44,7 @@ namespace NotesApp
             if (savePasswordCheckbox.IsChecked.HasValue && savePasswordCheckbox.IsChecked.Value)
             {
                 Properties.Settings.Default.username = user.username;
-                Properties.Settings.Default.password = user.password;
+                Properties.Settings.Default.password = password_field.Password;
             }
             Properties.Settings.Default.Save();
             NotesWindow notesWindow = new NotesWindow(context, user);
@@ -56,7 +56,7 @@ namespace NotesApp
             try
             {
                 var res = from user in dataContext.users
-                          where user.username == username_field.Text && user.password == password_field.Password
+                          where user.username == username_field.Text && user.password == password_field.Password.HashMD5()
                           select user;
 
                 if (res.Count() > 0)
@@ -85,11 +85,11 @@ namespace NotesApp
                     dataContext.users.InsertOnSubmit(new users
                     {
                         username = username_field.Text,
-                        password = password_field.Password
+                        password = password_field.Password.HashMD5()
                     });
                     dataContext.SubmitChanges();
                     authWith(dataContext, dataContext.users.First(
-                        u => u.username == username_field.Text && u.password == password_field.Password));
+                        u => u.username == username_field.Text && u.password == password_field.Password.HashMD5()));
                     this.Close();
                 }
                 else

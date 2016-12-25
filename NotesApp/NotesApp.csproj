@@ -65,6 +65,7 @@
     <Compile Include="SharingOptionsDialog.xaml.cs">
       <DependentUpon>SharingOptionsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StringExtension.cs" />
     <Compile Include="UserExtension.cs" />
     <Page Include="AuthWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
